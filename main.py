@@ -1,5 +1,6 @@
 # Importing libraries
 import subprocess
+import sys
 
 
 # Checks whether the current working directory is inside a Git repository
@@ -29,4 +30,12 @@ def is_git_repository() -> bool:
 def main() -> None:
     if not is_git_repository():
         print("Not inside a Git repository...")
+        sys.exit(1)
     print("Git repository detected!")
+    sys.exit(0)
+
+
+# Execute the application only when the script is run directly,
+# not when it is imported as a module.
+if __name__ == "__main__":
+    main()

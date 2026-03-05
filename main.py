@@ -26,13 +26,37 @@ def is_git_repository() -> bool:
         return False
 
 
+## Retrieve the diff of staged changes in the current Git repository
+def get_staged_diff() -> str:
+    """
+    Returns the diff of staged (cached) changes.
+
+    Executes `git diff --cached` to capture modifications that have been
+    added to the staging area but not yet committed.
+    """
+    result: subprocess.CompletedProcess = subprocess.run(
+        ["git", "diff", "--cached"],
+        stdout=subprocess.PIPE,   # Capture standard output (the diff content)
+        stderr=subprocess.PIPE,   # Capture error output (if any)
+        text=True,                # Return output as a string instead of bytes
+    )
+
+    # Remove leading/trailing whitespace for cleaner downstream usage
+    return result.stdout.strip()
+
+
 # Main entry point of the application
 def main() -> None:
     if not is_git_repository():
         print("Not inside a Git repository...")
         sys.exit(1)
     print("Git repository detected!")
-    sys.exit(0)
+    diff: subprocess.CompletedProcess = get_staged_diff()
+    if not diff:
+        print("No staged changes found...")
+        sys.exit(0)
+    print("Staged changes detected:")
+    print(diff)
 
 
 # Execute the application only when the script is run directly,

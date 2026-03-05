@@ -96,7 +96,8 @@ def generate_commit_message(diff: str) -> str:
         formatted commit message based on the provided changes. Follow these rules:
 
         1. Use the Conventional Commits format: <type>(optional scope): <short summary>
-        2. Allowed types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+        2. Allowed types: feat, fix, docs, style, refactor, perf, test, build, ci, 
+        chore, revert
         3. The summary must:
         - Be in lowercase
         - Not end with a period

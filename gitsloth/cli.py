@@ -78,7 +78,7 @@ def main() -> None:
             message = commits[0]
             print(message)
 
-        if not questionary.confirm("Commit with this message?").ask():
+        if not questionary.confirm("Commit with this message?", qmark="").ask():
             print("Commit aborted.")
             sys.exit(0)
 

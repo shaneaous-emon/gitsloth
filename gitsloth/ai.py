@@ -1,8 +1,11 @@
-# Importing libraries
+# Standard library imports
 import os
+
+# Third-party imports
 import openai
 
-# Creating the commit propmt template to then format with 2 variables and an f-string
+
+# Prompt template used to instruct the LLM to generate Conventional Commit messages
 COMMIT_PROMPT_TEMPLATE: str = """
 You are an expert software engineer that writes precise commit messages
 following the Conventional Commits specification.
@@ -36,52 +39,63 @@ Changes:
 """
 
 
-# Estimate the number of tokens based on the input text's length
 def estimate_token_count(text: str) -> int:
     """
     Roughly estimate the number of tokens in a string.
-    This approximation assumes ~4 characters per token.
+
+    This heuristic assumes ~4 characters per token, which is a
+    commonly used approximation for English text.
 
     Args:
-        text: The input text.
+        text (str):
+            The input text.
 
     Returns:
-        Estimated token count.
+        int:
+            Estimated token count.
     """
 
-    # Computing a rough approximation of 4 chars per token
+    # Rough approximation: 4 characters ≈ 1 token
     return len(text) // 4
 
 
-# Based on a diff change output generate an n-number of commits related to the context's
-# changes
 def generate_commit_messages(diff: str, n: int) -> list[str]:
     """
-    Generate multiple Conventional Commit messages from a Git diff.
+    Generate Conventional Commit messages based on a Git diff.
+
+    The function sends the staged diff to an LLM and asks it to
+    generate multiple commit message suggestions following the
+    Conventional Commits specification.
 
     Args:
-        diff: The staged git diff.
-        n: Number of commit suggestions to generate.
+        diff (str):
+            The staged Git diff.
+
+        n (int):
+            Number of commit suggestions to generate.
 
     Returns:
-        A list containing up to `n` commit message suggestions.
+        list[str]:
+            A list containing up to `n` commit message suggestions.
 
     Raises:
-        EnvironmentError: If the OPENAI_API_KEY is not set.
+        EnvironmentError:
+            If the OPENAI_API_KEY environment variable is not set.
     """
 
-    # Get the api key from the env variable of the user
-    api_key: str = os.getenv("OPENAI_API_KEY")
+    # Retrieve the API key from environment variables
+    api_key: str | None = os.getenv("OPENAI_API_KEY")
 
-    # Checking if it has founded something; if not raising a missing error
     if not api_key:
         raise EnvironmentError("OPENAI_API_KEY environment variable is not set.")
 
-    # Create the OpenAI client to do the request of the following formatted prompt f-string
+    # Initialize the OpenAI client
     client: openai.OpenAI = openai.OpenAI(api_key=api_key)
+
+    # Format the prompt with the staged diff and requested number of commits
     prompt: str = COMMIT_PROMPT_TEMPLATE.format(diff=diff, n=n)
 
-    # Generating a response with the specified payload
+    # Send request to the model
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         temperature=0.2,
@@ -90,22 +104,31 @@ def generate_commit_messages(diff: str, n: int) -> list[str]:
                 "role": "system",
                 "content": "You generate high quality git commit messages.",
             },
-            {"role": "user", "content": prompt},
+            {
+                "role": "user",
+                "content": prompt,
+            },
         ],
     )
 
-    # Sanitize the response output for the single commit generation case (where n = 1)
+    # Extract response content
     response_text: str = response.choices[0].message.content.replace("```", "").strip()
 
-    # Extract generated commits from the model and store them in a list for better use
     commits: list[str] = list()
-    for line in response_text.split("\n"):
+
+    # Parse numbered list output from the model
+    for line in response_text.splitlines():
         line: str = line.strip()
+
         if not line:
             continue
+
+        # Remove numbering like "1. ", "2. "
         if "." in line:
-            line: str = line.split(".", 1)[1].strip()
+            parts: list[str] = line.split(".", 1)
+            if parts[0].isdigit():
+                line: str = parts[1].strip()
+
         commits.append(line)
 
-    # After filling the commits, return the computed list
     return commits

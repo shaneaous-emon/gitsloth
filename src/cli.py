@@ -7,6 +7,7 @@ from rich.console import Console
 from rich.prompt import Confirm
 
 # Importing project modules for git interaction, AI generation and UI
+from src import __version__
 from src.git import is_git_repository, get_staged_diff, create_commit
 from src.ai import generate_commit_messages, estimate_token_count
 from src.ui import choose_commit
@@ -41,6 +42,14 @@ def parse_args() -> argparse.Namespace:
     # Creating the root CLI parser
     parser = argparse.ArgumentParser(
         description="Generate AI-powered Git commit messages."
+    )
+
+    # Outputs the current version of the CLI via command line
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=f"gitsloth {__version__}",
     )
 
     # Adding support for subcommands

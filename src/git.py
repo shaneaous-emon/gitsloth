@@ -78,5 +78,5 @@ def create_commit(message: str) -> None:
         )
 
     # Display Git's output on success
-    console.print("Commit created successfully!")
+    console.print("\nCommit created successfully!")
     console.print(result.stdout.strip())

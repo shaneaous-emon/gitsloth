@@ -1,10 +1,23 @@
 # Third-party imports
-import readchar
 from rich.console import Console
 from rich.table import Table
+from rich.live import Live
+import readchar
 
 # Create an instance of rich console to use it's custom methods
 console: Console = Console()
+
+
+def render(commits, index):
+    table = Table(show_header=False, box=None, pad_edge=False)
+
+    for i, commit in enumerate(commits):
+        if i == index:
+            table.add_row(f"[green]> {commit}[/green]")
+        else:
+            table.add_row(f"  {commit}")
+
+    return table
 
 
 def choose_commit(commits: list[str]) -> str:
@@ -23,36 +36,24 @@ def choose_commit(commits: list[str]) -> str:
         KeyboardInterrupt:
             If the user cancels the prompt (e.g. Ctrl+C).
     """
+    index = 0
 
-    index: int = 0
+    console.print("\n[bold]Proposed commit messages:[/bold]\n")
 
-    while True:
-        console.clear()
+    with Live(render(commits, index), console=console, refresh_per_second=20) as live:
+        while True:
+            key = readchar.readkey()
 
-        table: Table = Table(show_header=False, box=None, pad_edge=False)
+            if key == readchar.key.UP:
+                index = (index - 1) % len(commits)
 
-        for i, commit in enumerate(commits):
-            if i == index:
-                table.add_row(f"[green]> {commit}[/green]")
-            else:
-                table.add_row(f"  {commit}")
+            elif key == readchar.key.DOWN:
+                index = (index + 1) % len(commits)
 
-        console.print("\n[bold]Proposed commit messages[/bold]\n")
-        console.print(table)
-        console.print(
-            "\n[dim]Use ↑ ↓ to move • Enter to select • Ctrl+C to cancel[/dim]"
-        )
+            elif key == readchar.key.ENTER:
+                return commits[index]
 
-        key: str = readchar.readkey()
+            elif key == readchar.key.CTRL_C:
+                raise KeyboardInterrupt
 
-        if key == readchar.key.UP:
-            index: int = (index - 1) % len(commits)
-
-        elif key == readchar.key.DOWN:
-            index: int = (index + 1) % len(commits)
-
-        elif key == readchar.key.ENTER:
-            return commits[index]
-
-        elif key == readchar.key.CTRL_C:
-            raise KeyboardInterrupt("Commit selection aborted by user.")
+            live.update(render(commits, index))

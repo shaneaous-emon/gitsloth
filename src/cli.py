@@ -121,6 +121,7 @@ def main() -> None:
         if args.command == "list":
             message: str = choose_commit(commits)
         else:
+            console.print("\n[bold]Proposed commit messages:[/bold]\n")
             message: str = commits[0]
             print(message)
 

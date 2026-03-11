@@ -1,6 +1,6 @@
 from pathlib import Path
 from platformdirs import user_config_dir
-import tomli
+import tomllib
 import tomli_w
 
 CONFIG_DIR = Path(user_config_dir("gitsloth"))
@@ -12,7 +12,7 @@ def load_config() -> dict[str, str]:
         return {}
 
     with open(CONFIG_FILE, "rb") as f:
-        return tomli.load(f)
+        return tomllib.load(f)
 
 
 def save_config(config: dict) -> None:

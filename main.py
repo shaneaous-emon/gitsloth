@@ -12,7 +12,7 @@ SELECTOR_STYLE: Style = Style(
     [
         ("question", "fg:#ffffff bold"),
         ("pointer", "fg:#00b4d8 bold"),
-        ("highlighted", "fg:#ffffff bg:#023e8a bold"),
+        ("highlighted", "fg:#921b7f bold"),
         ("selected", "fg:#00b4d8 bold"),
         ("answer", "fg:#00b4d8 bold"),
     ]

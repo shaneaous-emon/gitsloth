@@ -10,11 +10,10 @@ from questionary import Style
 # Custom style: bold cyan pointer, bright white selected text on a dark blue highlight
 SELECTOR_STYLE: Style = Style(
     [
-        ("question", "fg:#ffffff bold"),
-        ("pointer", "fg:#00b4d8 bold"),
-        ("highlighted", "fg:#921b7f bold"),
-        ("selected", "fg:#00b4d8 bold"),
-        ("answer", "fg:#00b4d8 bold"),
+        ("question", "bold fg:white"),
+        ("pointer", "bold fg:green"),
+        ("highlighted", "bold fg:green"),
+        ("answer", "bold fg:blue"),
     ]
 )
 
@@ -153,17 +152,20 @@ def generate_commit_messages(diff: str, num: int = 1) -> list[str] | None:
         temperature: float = 0.2
     else:
         task = (
-            f"generate exactly {num} distinct commit message suggestions based on the provided changes. "
-            "Each suggestion should explore a different type or angle of the same change set."
+            f"generate exactly {num} distinct commit message suggestions based on the provided"
+            "changes. Each suggestion should explore a different type or angle of the same "
+            "change set."
         )
         output_format = (
-            f'Return ONLY the {num} messages, each separated by the delimiter "---" on its own line. '
-            "Do not include numbering, labels, or any other text outside the messages and delimiters."
+            f'Return ONLY the {num} messages, each separated by the delimiter "---" on its'
+            "own line. Do not include numbering, labels, or any other text outside the"
+            "messages and delimiters."
         )
         temperature = 0.7
 
     prompt: str = f"""
-        You are an expert software engineer that writes precise commit messages following the Conventional Commits specification.
+        You are an expert software engineer that writes precise commit messages following 
+        the Conventional Commits specification.
 
         Your task is to {task}
 

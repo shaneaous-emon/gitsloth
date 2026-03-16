@@ -153,7 +153,7 @@ def main() -> None:
         return
     click.echo("Proposed commit message:\n")
     click.echo(f"\t{message}\n")
-    if not click.confirm("\nAccept and commit with this message?"):
+    if not click.confirm("Accept and commit with this message?"):
         return
     create_commit(message)
 

